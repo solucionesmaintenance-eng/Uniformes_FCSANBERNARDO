@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Uniformes Pro - v22</title>
+    <style>
+        :root {
+            --primary-color: #1a2a6c;
+            --accent-color: #e67e22;
+            --bg-body: #f4f7f9;
+            --highlight-color: #ffeb3b;
+            --error-color: #d63031;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-body);
+            margin: 0;
+            padding-bottom: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            width: 100%;
+            background: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .sticky-search {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            background: var(--bg-body);
+            padding: 15px 0;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .search-box {
+            width: 90%;
+            max-width: 800px;
+        }
+
+        #inputBusqueda {
+            width: 100%;
+            padding: 15px 25px;
+            border: 2px solid var(--primary-color);
+            border-radius: 50px;
+            font-size: 16px;
+            box-sizing: border-box;
+            outline: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        #mensajeError {
+            display: none;
+            color: white;
+            background-color: var(--error-color);
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 0.9em;
+            text-align: center;
+        }
+
+        .table-container {
+            width: 98%;
+            max-width: 1200px;
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            font-size: 0.85em;
+        }
+
+        thead { background: var(--primary-color); color: white; }
+        th, td { padding: 12px 10px; text-align: left; border-bottom: 1px solid #eee; }
+
+        .col-correo { word-break: break-all; color: #2980b9; font-weight: 500; }
+
+        mark { background-color: var(--highlight-color); color: black; padding: 0; border-radius: 2px; }
+
+        @media screen and (max-width: 850px) {
+            table, thead, tbody, th, td, tr { display: block; }
+            thead tr { position: absolute; top: -9999px; left: -9999px; }
+            tr { border: 1px solid #ccc; margin-bottom: 15px; border-radius: 8px; background: white; padding: 5px; }
+            td { border: none; border-bottom: 1px solid #eee; position: relative; padding-left: 45%; text-align: right; min-height: 35px; }
+            td:last-child { border-bottom: 0; }
+            td:before {
+                position: absolute; left: 10px; width: 40%; padding-right: 10px;
+                content: attr(data-label); font-weight: bold; text-align: left; color: var(--primary-color);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h2>UNIFORMES SAN BERNARDO</h2>
+    </header>
+
+    <div class="sticky-search">
+        <div class="search-box">
+            <input type="text" id="inputBusqueda" onkeyup="filtrarYResaltar()" placeholder="Buscar por ID (1-22) o Nombre...">
+        </div>
+        <div id="mensajeError">⚠️ Solo se permiten números del 1 al 22 para la búsqueda por ID.</div>
+    </div>
+
+    <div class="table-container">
+        <table id="tablaJugadores">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre Completo</th>
+                    <th># Camiseta</th>
+                    <th>Correo Electrónico</th>
+                    <th>Talla Camisa</th>
+                    <th>Talla Panta.</th>
+                    <th>Apodo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td data-label="ID">1</td><td data-label="Nombre">Luis Carlos Garcia Galleg</td><td data-label="#">1</td><td data-label="Correo" class="col-correo">yamamoto426@yahoo.com</td><td data-label="Camisa">XL</td><td data-label="Panta.">XL</td><td data-label="Apodo">yamamoto</td></tr>
+                <tr><td data-label="ID">2</td><td data-label="Nombre">Julian Bohorquez</td><td data-label="#">8</td><td data-label="Correo" class="col-correo">Julianplin20@gmail.com</td><td data-label="Camisa">L</td><td data-label="Panta.">L</td><td data-label="Apodo">PLIN</td></tr>
+                <tr><td data-label="ID">3</td><td data-label="Nombre">Cesar Jerez</td><td data-label="#">6</td><td data-label="Correo" class="col-correo">cesarjerezpa603@gmail.com</td><td data-label="Camisa">XL</td><td data-label="Panta.">L</td><td data-label="Apodo">Kiko</td></tr>
+                <tr><td data-label="ID">4</td><td data-label="Nombre">Luis carlos Alvarez</td><td data-label="#">27</td><td data-label="Correo" class="col-correo">luiska0227@gmail.com</td><td data-label="Camisa">M</td><td data-label="Panta.">L</td><td data-label="Apodo">El cofla</td></tr>
+                <tr><td data-label="ID">5</td><td data-label="Nombre">Frayban Arguello</td><td data-label="#">22</td><td data-label="Correo" class="col-correo">falexisarguello@hotmail.com</td><td data-label="Camisa">M</td><td data-label="Panta.">M</td><td data-label="Apodo">Frayban</td></tr>
+                <tr><td data-label="ID">6</td><td data-label="Nombre">Jeison Andres</td><td data-label="#">55</td><td data-label="Correo" class="col-correo">jeisonvasquezgonzalez1@gmail.com</td><td data-label="Camisa">M</td><td data-label="Panta.">M</td><td data-label="Apodo">San Bernardo F.C</td></tr>
+                <tr><td data-label="ID">7</td><td data-label="Nombre">Kevin Sandoval</td><td data-label="#">14</td><td data-label="Correo" class="col-correo">sandovalstiven42@gmail.com</td><td data-label="Camisa">M</td><td data-label="Panta.">M</td><td data-label="Apodo">Steven</td></tr>
+                <tr><td data-label="ID">8</td><td data-label="Nombre">Jhair Rodriguez</td><td data-label="#">16</td><td data-label="Correo" class="col-correo">Jhair6214@gmail.com</td><td data-label="Camisa">M</td><td data-label="Panta.">M</td><td data-label="Apodo">JHAIR</td></tr>
+                <tr><td data-label="ID">9</td><td data-label="Nombre">Alexander Niño Rodriguez</td><td data-label="#">5</td><td data-label="Correo" class="col-correo">alexanderaldejandra424@gmail.com</td><td data-label="Camisa">XL</td><td data-label="Panta.">XL</td><td data-label="Apodo">San Bernardo F.C</td></tr>
+                <tr><td data-label="ID">10</td><td data-label="Nombre">Julian chacon</td><td data-label="#">5</td><td data-label="Correo" class="col-correo">Julian@gmail.com</td><td data-label="Camisa">XL</td><td data-label="Panta.">XL</td><td data-label="Apodo">ALLISON</td></tr>
+                <tr><td data-label="ID">11</td><td data-label="Nombre">Andrés</td><td data-label="#">2</td><td data-label="Correo" class="col-correo">norena2511@gmail.com</td><td data-label="Camisa">XL</td><td data-label="Panta.">XL</td><td data-label="Apodo">ten</td></tr>
+                <tr><td data-label="ID">12</td><td data-label="Nombre">Santiago james</td><td data-label="#">9</td><td data-label="Correo" class="col-correo">Gato@gmail.com</td><td data-label="Camisa">L</td><td data-label="Panta.">L</td><td data-label="Apodo">GATO</td></tr>
+                <tr><td data-label="ID">13</td><td data-label="Nombre">Edwin Camacho BOHORQ</td><td data-label="#">16</td><td data-label="Correo" class="col-correo">edwinbohorquez544@gmail.com</td><td data-label="Camisa">L</td><td data-label="Panta.">L</td><td data-label="Apodo">S.Antoni@p</td></tr>
+                <tr><td data-label="ID">14</td><td data-label="Nombre">Alejo</td><td data-label="#">11</td><td data-label="Correo" class="col-correo">Alejo@gmail.com</td><td data-label="Camisa">XL</td><td data-label="Panta.">XL</td><td data-label="Apodo">ALEJO #11</td></tr>
+                <tr><td data-label="ID">15</td><td data-label="Nombre">DIEGO FERNANDO RUEDA</td><td data-label="#">100</td><td data-label="Correo" class="col-correo">juandiegoruedavesga@gmail.com</td><td data-label="Camisa">XL</td><td data-label="Panta.">XL</td><td data-label="Apodo">DIEGO 10</td></tr>
+                <tr><td data-label="ID">16</td><td data-label="Nombre">Miguel Angel Campos Ca</td><td data-label="#">25</td><td data-label="Correo" class="col-correo">Miguelangelcamposgarcia@gmail.com</td><td data-label="Camisa">XL</td><td data-label="Panta.">XL</td><td data-label="Apodo">Miguel</td></tr>
+                <tr><td data-label="ID">17</td><td data-label="Nombre">Joan carlor</td><td data-label="#">17</td><td data-label="Correo" class="col-correo">Carlier@gmail.com</td><td data-label="Camisa">XL</td><td data-label="Panta.">XL</td><td data-label="Apodo">San Bernardo F.C</td></tr>
+                <tr><td data-label="ID">18</td><td data-label="Nombre">David</td><td data-label="#">11</td><td data-label="Correo" class="col-correo">electricarrascal06@gmail.com</td><td data-label="Camisa">L</td><td data-label="Panta.">L</td><td data-label="Apodo">Carrascal</td></tr>
+                <tr><td data-label="ID">19</td><td data-label="Nombre">Diego Andrés pulido</td><td data-label="#">23</td><td data-label="Correo" class="col-correo">diegoandrespulido11@gmail.com</td><td data-label="Camisa">L</td><td data-label="Panta.">L</td><td data-label="Apodo">Diego</td></tr>
+                <tr><td data-label="ID">20</td><td data-label="Nombre">Andrés Alexander Andrad</td><td data-label="#">30</td><td data-label="Correo" class="col-correo">a4.28.1997@gmail.com</td><td data-label="Camisa">L</td><td data-label="Panta.">L</td><td data-label="Apodo">Andrew</td></tr>
+                <tr><td data-label="ID">21</td><td data-label="Nombre">Luis peña</td><td data-label="#">6</td><td data-label="Correo" class="col-correo">Barranquilla@gmail.com</td><td data-label="Camisa">M</td><td data-label="Panta.">M</td><td data-label="Apodo">BARRANQUILLA</td></tr>
+                <tr><td data-label="ID">22</td><td data-label="Nombre">Michael Rodríguez</td><td data-label="#">01</td><td data-label="Correo" class="col-correo">Michael@gmail.com</td><td data-label="Camisa">XL</td><td data-label="Panta.">XL</td><td data-label="Apodo">Tarantula</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function filtrarYResaltar() {
+            const input = document.getElementById("inputBusqueda");
+            const mensajeError = document.getElementById("mensajeError");
+            const filtro = input.value.toLowerCase().trim();
+            const filas = document.querySelectorAll("#tablaJugadores tbody tr");
+
+            // Actualizada la validación para ID 22
+            if (filtro !== "" && !isNaN(filtro)) {
+                const numID = parseInt(filtro);
+                mensajeError.style.display = (numID < 1 || numID > 22) ? "block" : "none";
+            } else {
+                mensajeError.style.display = "none";
+            }
+
+            filas.forEach(fila => {
+                const celdaID = fila.cells[0];
+                const celdaNombre = fila.cells[1];
+                
+                if (!celdaID.getAttribute('data-original')) {
+                    celdaID.setAttribute('data-original', celdaID.innerText);
+                    celdaNombre.setAttribute('data-original', celdaNombre.innerText);
+                }
+
+                const textoID = celdaID.getAttribute('data-original');
+                const textoNombre = celdaNombre.getAttribute('data-original');
+
+                if (filtro === "") {
+                    fila.style.display = "";
+                    celdaID.innerHTML = textoID;
+                    celdaNombre.innerHTML = textoNombre;
+                    return;
+                }
+
+                const coincideID = textoID.toLowerCase() === filtro;
+                const coincideNombre = textoNombre.toLowerCase().includes(filtro);
+
+                if (coincideID || coincideNombre) {
+                    fila.style.display = "";
+                    resaltarCelda(celdaID, textoID, filtro);
+                    resaltarCelda(celdaNombre, textoNombre, filtro);
+                } else {
+                    fila.style.display = "none";
+                }
+            });
+        }
+
+        function resaltarCelda(celda, textoOriginal, busqueda) {
+            const indice = textoOriginal.toLowerCase().indexOf(busqueda);
+            if (indice >= 0) {
+                const parte1 = textoOriginal.substring(0, indice);
+                const coincidencia = textoOriginal.substring(indice, indice + busqueda.length);
+                const parte2 = textoOriginal.substring(indice + busqueda.length);
+                celda.innerHTML = `${parte1}<mark>${coincidencia}</mark>${parte2}`;
+            } else {
+                celda.innerHTML = textoOriginal;
+            }
+        }
+    </script>
+</body>
+</html>
