@@ -38,4 +38,4 @@ Este programa se distribuye con la esperanza de que sea útil, pero SIN NINGUNA 
 
 //Instrucciones de mantenimiento:
 
-Para agregar más jugadores: Solo debes insertar una nueva fila (<tr>) en el (<tbody>) y actualizar el número máximo en la función filtrarYResaltar() dentro de la condición (numID < 1 || numID > 22).
+Para agregar más jugadores: Solo debes insertar una nueva fila (<tr) en el (tbody>) y actualizar el número máximo en la función filtrarYResaltar() dentro de la condición (numID < 1 || numID > 22).
